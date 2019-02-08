@@ -13,37 +13,54 @@ Plugin 'VundleVim/Vundle.vim'
 " The following are examples of different formats supported.
 " Keep Plugin commands between vundle#begin/end.
 " plugin on GitHub repo
+Plugin 'w0rp/ale'
 Plugin 'Valloric/YouCompleteMe'
+" relies on ycm
 Plugin 'rdnetto/YCM-Generator'
+" version controls
 Plugin 'tpope/vim-fugitive'
 Plugin 'airblade/vim-gitgutter'
-Plugin 'moll/vim-bbye'
+Plugin 'vcscommand.vim'
+Plugin 'mileszs/ack.vim'
+" nerd set
 Plugin 'scrooloose/nerdtree'
+Plugin 'tyok/nerdtree-ack'
 Plugin 'scrooloose/nerdcommenter'
+" language
 Plugin 'beloglazov/vim-online-thesaurus'
 Plugin 'rhysd/vim-grammarous'
-"Plugin 'languagetool-org/languagetool'
+" vim improvements
 Plugin 'thinca/vim-localrc'
+Plugin 'moll/vim-bbye'
+Plugin 'easymotion/vim-easymotion'
+Plugin 'vim-airline/vim-airline'
 Plugin 'tpope/vim-surround'
 "Plugin 'xolox/vim-misc'
 "Plugin 'xolox/vim-easytags'
 Plugin 'ludovicchabant/vim-gutentags'
 Plugin 'majutsushi/tagbar'
-Plugin 'mileszs/ack.vim'
-" the bottom uses two plugins together
-Plugin 'tyok/nerdtree-ack'
-Plugin 'vcscommand.vim'
-Plugin 'CoatiSoftware/vim-sourcetrail'
 Plugin 'andrewradev/linediff.vim'
+" handy plugin for marks
+Plugin 'kshenoy/vim-signature'
+" fuzzy file opener
 Plugin 'ctrlpvim/ctrlp.vim'
-Plugin 'pboettch/vim-cmake-syntax'
 Plugin 'rizzatti/dash.vim'
 " Plugin 'brookhong/cscope.vim'
 " Plugin 'autoload_cscope.vim'
+" cpp
 Plugin 'ronakg/quickr-cscope.vim'
 Plugin 'rhysd/vim-clang-format'
-Plugin 'octol/vim-cpp-enhanced-highlight'
-Plugin 'kshenoy/vim-signature'
+" highlight
+Plugin 'pboettch/vim-cmake-syntax'
+" Plugin 'bfrg/vim-cpp-modern'
+Plugin 'arakashic/chromatica.nvim'
+" A - for switching between source and header files
+Plugin 'micbou/a.vim'
+" colorschemes
+Plugin 'rakr/vim-one'
+Plugin 'arcticicestudio/nord-vim'
+Plugin 'joshdick/onedark.vim'
+Plugin 'mhartington/oceanic-next'
 " Plugin 'jeaye/color_coded'
 "Plugin 'scrooloose/syntastic'
 " plugin from http://vim-scripts.org/vim/scripts.html
@@ -86,7 +103,7 @@ no <C-h> <C-w>h
 
 "enable syntax highlighting
 syntax on 
-colorscheme Tomorrow-Night-Bright
+colorscheme onedark
 
 " set autoread when the file changed from outside
 set autoread
@@ -98,21 +115,6 @@ autocmd BufEnter * silent! lcd %:p:h
 " show line numbers
 set number 
 
-" show statusline
-set laststatus=2 
-set statusline=
-" filename
-set statusline+=%f\
-" filetype
-set statusline+=[%{strlen(&ft)?&ft:'none'},
-"set statusline+=%{strlen(&fenc)?&fenc:&enc}, " encoding
-set statusline+=%{&fileformat}]              " file format
-" right allign
-set statusline+=%=
-set statusline+=%1*%y%*%*\
-set statusline+=%10((%l,%c)%)\
-set statusline+=%P
-
 " show the matching part of the pair for [] {} ()
 set showmatch
 
@@ -120,15 +122,16 @@ set showmatch
 let python_highlight_all = 1
 
 " Enchance command-line completion
-set wildmode=longest,list,full
 set wildmenu
+set wildmode=longest:full,list:longest,full
 
+"" Search
+" search on typing
+set incsearch
 " Highlight searches
 set hlsearch
-
 " Ignore case of searches
 set ignorecase
-
 " But case-sensitive if there are capital letters
 set smartcase
 
@@ -171,6 +174,9 @@ set clipboard=unnamed
 
 " bind K to grep word under cursor
 nnoremap K :grep! "\b<C-R><C-W>\b"<CR>:cw<CR>
+
+" autoscroll
+set scrolloff=5
 
 " ############################################################################
 " #          Configure any plugin-specific settings and mappings.            #
@@ -263,3 +269,7 @@ let g:cpp_class_scope_highlight = 1
 let g:cpp_member_variable_highlight = 1
 let g:cpp_class_decl_highlight = 1
 let g:cpp_experimental_template_highlight = 1
+
+" ----------------------------------- A ---------------------------------------
+nmap <leader>hh :A<CR>
+

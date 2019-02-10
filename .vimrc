@@ -50,6 +50,7 @@ Plugin 'rizzatti/dash.vim'
 " cpp
 Plugin 'ronakg/quickr-cscope.vim'
 Plugin 'rhysd/vim-clang-format'
+Plugin 'sakhnik/nvim-gdb'
 " highlight
 Plugin 'pboettch/vim-cmake-syntax'
 " Plugin 'bfrg/vim-cpp-modern'

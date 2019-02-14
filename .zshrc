@@ -4,13 +4,14 @@ source ~/.bash_profile
 # If a customization is applicable for bash, it has to be moved to bashrc.
 
 # Completion
+ZSH_DISABLE_COMPFIX=true
 fpath=(/usr/local/share/zsh-completions $fpath)
 
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
 # Path to your oh-my-zsh installation.
-export ZSH="/Users/Nikolay/.oh-my-zsh"
+export ZSH=$HOME"/.oh-my-zsh"
 
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time oh-my-zsh is loaded, in which case,
@@ -125,6 +126,7 @@ bindkey '^[[[AE' autosuggest-execute
 ### Aliases
 # Suffix a
 alias -s {c,cpp,h,hpp,ipp}=nvim
+alias -s {log, txt}=nvim
 
 # easy navigation
 d='dirs -v | head -10'

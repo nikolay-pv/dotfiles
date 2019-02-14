@@ -51,6 +51,9 @@ Plugin 'rizzatti/dash.vim'
 Plugin 'ronakg/quickr-cscope.vim'
 Plugin 'rhysd/vim-clang-format'
 Plugin 'sakhnik/nvim-gdb'
+" go together
+Bundle 'LucHermitte/lh-vim-lib'
+Bundle 'LucHermitte/VimFold4C'
 " highlight
 Plugin 'pboettch/vim-cmake-syntax'
 " Plugin 'bfrg/vim-cpp-modern'
@@ -274,3 +277,5 @@ let g:cpp_experimental_template_highlight = 1
 " ----------------------------------- A ---------------------------------------
 nmap <leader>hh :A<CR>
 
+" ---------------------------------- ale --------------------------------------
+let g:ale_c_parse_compile_commands=1

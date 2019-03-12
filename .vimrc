@@ -279,3 +279,14 @@ nmap <leader>hh :A<CR>
 
 " ---------------------------------- ale --------------------------------------
 let g:ale_c_parse_compile_commands=1
+
+" -------------------------------- airline ------------------------------------
+let g:airline#extensions#default#section_truncate_width = {
+      \ 'b': 79,
+      \ 'x': 60,
+      \ 'y': 88,
+      \ 'z': 45,
+      \ 'warning': 80,
+      \ 'error': 80,
+      \ }
+

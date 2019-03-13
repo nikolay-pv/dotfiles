@@ -13,10 +13,7 @@ Plugin 'VundleVim/Vundle.vim'
 " The following are examples of different formats supported.
 " Keep Plugin commands between vundle#begin/end.
 " plugin on GitHub repo
-Plugin 'w0rp/ale'
-Plugin 'Valloric/YouCompleteMe'
-" relies on ycm
-Plugin 'rdnetto/YCM-Generator'
+"Plugin 'w0rp/ale'
 " version controls
 Plugin 'tpope/vim-fugitive'
 Plugin 'airblade/vim-gitgutter'
@@ -45,10 +42,15 @@ Plugin 'kshenoy/vim-signature'
 " fuzzy file opener
 Plugin 'ctrlpvim/ctrlp.vim'
 Plugin 'rizzatti/dash.vim'
-" Plugin 'brookhong/cscope.vim'
-" Plugin 'autoload_cscope.vim'
 " cpp
-Plugin 'ronakg/quickr-cscope.vim'
+Plugin 'ncm2/ncm2'
+Plugin 'roxma/nvim-yarp'
+Plugin 'ncm2/ncm2-jedi'
+Plugin 'ncm2/ncm2-bufword'
+Plugin 'ncm2/ncm2-path'
+Plugin 'Shougo/neoinclude.vim'
+Plugin 'ncm2/ncm2-neoinclude'
+Plugin 'autozimu/LanguageClient-neovim'
 Plugin 'rhysd/vim-clang-format'
 Plugin 'sakhnik/nvim-gdb'
 " go together
@@ -56,8 +58,9 @@ Bundle 'LucHermitte/lh-vim-lib'
 Bundle 'LucHermitte/VimFold4C'
 " highlight
 Plugin 'pboettch/vim-cmake-syntax'
-" Plugin 'bfrg/vim-cpp-modern'
-Plugin 'arakashic/chromatica.nvim'
+Plugin 'bfrg/vim-cpp-modern'
+" does not allow to fold....
+"Plugin 'arakashic/chromatica.nvim'
 " A - for switching between source and header files
 Plugin 'micbou/a.vim'
 " colorschemes
@@ -65,7 +68,7 @@ Plugin 'rakr/vim-one'
 Plugin 'arcticicestudio/nord-vim'
 Plugin 'joshdick/onedark.vim'
 Plugin 'mhartington/oceanic-next'
-" Plugin 'jeaye/color_coded'
+"Plugin 'jeaye/color_coded'
 "Plugin 'scrooloose/syntastic'
 " plugin from http://vim-scripts.org/vim/scripts.html
 " Plugin 'L9'
@@ -188,17 +191,17 @@ set scrolloff=5
 
 " ----------------------------------- YCM ------------------------------------
 " Apply YCM FixIt
-map ff :YcmCompleter FixIt<CR>
-" set up default config
-" let g:ycm_global_ycm_extra_conf = '~/.vim/ycm_extra_conf_global.py'
-" show all errors
-let g:ycm_max_diagnostics_to_display=0
-" syntax
-let g:ycm_collect_identifiers_from_tags_files=1
-let g:ycm_seed_identifiers_with_syntax=1
-" location with errors
-let g:ycm_always_populate_location_list = 1
-let g:ycm_autoclose_preview_window_after_insertion = 1
+"map ff :YcmCompleter FixIt<CR>
+"" set up default config
+"" let g:ycm_global_ycm_extra_conf = '~/.vim/ycm_extra_conf_global.py'
+"" show all errors
+"let g:ycm_max_diagnostics_to_display=0
+"" syntax
+"let g:ycm_collect_identifiers_from_tags_files=1
+"let g:ycm_seed_identifiers_with_syntax=1
+"" location with errors
+"let g:ycm_always_populate_location_list = 1
+"let g:ycm_autoclose_preview_window_after_insertion = 1
 
 " ------------------------------- NerdTree ------------------------------------
 " Nerd short-cut
@@ -241,29 +244,6 @@ if executable('ag')
   let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
 endif
 
-" ------------------------------- Cscope -------------------------------------
-let g:quickr_cscope_keymaps = 0
-" always open in quickfix window
-let g:quickr_cscope_use_qf_g = 1
-" nnoremap <leader>fa 
-" nnoremap <leader>l :call ToggleLocationList()<CR>
-" s: Find this C symbol
-nmap  <leader>fs <plug>(quickr_cscope_symbols)
-" g: Find this definition
-nmap  <leader>fg <plug>(quickr_cscope_global)
-" d: Find functions called by this function
-nmap  <leader>fd <plug>(quickr_cscope_functions)
-" c: Find functions calling this function
-nmap  <leader>fc <plug>(quickr_cscope_callers)
-" t: Find this text string
-nmap  <leader>ft <plug>(quickr_cscope_text)
-" e: Find this egrep pattern
-nmap  <leader>fe <plug>(quickr_cscope_egrep)
-" f: Find this file
-nmap  <leader>ff <plug>(quickr_cscope_files)
-" i: Find files #including this file
-nmap  <leader>fi <plug>(quickr_cscope_includes)
-
 " ------------------------------- Clang-tools  --------------------------------
 nmap  <leader>clf <plug>(operator-clang-format)
 let g:clang_format#detect_style_file=1
@@ -278,7 +258,7 @@ let g:cpp_experimental_template_highlight = 1
 nmap <leader>hh :A<CR>
 
 " ---------------------------------- ale --------------------------------------
-let g:ale_c_parse_compile_commands=1
+"let g:ale_c_parse_compile_commands=1
 
 " -------------------------------- airline ------------------------------------
 let g:airline#extensions#default#section_truncate_width = {

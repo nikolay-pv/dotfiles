@@ -1,91 +1,75 @@
 set nocompatible              " be iMproved, required
-filetype off                  " required
 
-" set the runtime path to include Vundle and initialize
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
-" alternatively, pass a path where Vundle should install plugins
-"call vundle#begin('~/some/path/here')
+" start Plug and set the runtime path
+call plug#begin('~/.vim/bundle')
+" Keep Plugin commands between plug#begin/end.
+" Make sure you use single quotes
 
-" let Vundle manage Vundle, required
-Plugin 'VundleVim/Vundle.vim'
-
-" The following are examples of different formats supported.
-" Keep Plugin commands between vundle#begin/end.
-" plugin on GitHub repo
-"Plugin 'w0rp/ale'
+"Plug 'w0rp/ale'
 " version controls
-Plugin 'tpope/vim-fugitive'
-Plugin 'airblade/vim-gitgutter'
-Plugin 'vcscommand.vim'
-Plugin 'mileszs/ack.vim'
+Plug 'tpope/vim-fugitive'
+Plug 'mhinz/vim-signify'
+Plug 'vim-scripts/vcscommand.vim'
+Plug 'mileszs/ack.vim'
 " nerd set
-Plugin 'scrooloose/nerdtree'
-Plugin 'tyok/nerdtree-ack'
-Plugin 'scrooloose/nerdcommenter'
+Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
+"Plug 'tyok/nerdtree-ack', { 'on': 'NERDTreeToggle' }
+Plug 'scrooloose/nerdcommenter'
 " language
-Plugin 'beloglazov/vim-online-thesaurus'
-Plugin 'rhysd/vim-grammarous'
+Plug 'beloglazov/vim-online-thesaurus'
+Plug 'rhysd/vim-grammarous'
 " vim improvements
-Plugin 'thinca/vim-localrc'
-Plugin 'moll/vim-bbye'
-Plugin 'easymotion/vim-easymotion'
-Plugin 'vim-airline/vim-airline'
-Plugin 'tpope/vim-surround'
-"Plugin 'xolox/vim-misc'
-"Plugin 'xolox/vim-easytags'
-Plugin 'ludovicchabant/vim-gutentags'
-Plugin 'majutsushi/tagbar'
-Plugin 'andrewradev/linediff.vim'
+Plug 'thinca/vim-localrc'
+Plug 'moll/vim-bbye'
+Plug 'easymotion/vim-easymotion'
+Plug 'vim-airline/vim-airline'
+Plug 'tpope/vim-surround'
+"Plug 'xolox/vim-misc'
+"Plug 'xolox/vim-easytags'
+Plug 'ludovicchabant/vim-gutentags', {'for': ['c', 'cpp', 'h', 'hpp', 'py']}
+Plug 'majutsushi/tagbar'
+Plug 'andrewradev/linediff.vim'
 " handy plugin for marks
-Plugin 'kshenoy/vim-signature'
+Plug 'kshenoy/vim-signature'
 " fuzzy file opener
-Plugin 'ctrlpvim/ctrlp.vim'
-Plugin 'rizzatti/dash.vim'
+Plug 'ctrlpvim/ctrlp.vim'
+Plug 'rizzatti/dash.vim'
 " cpp
-Plugin 'ncm2/ncm2'
-Plugin 'roxma/nvim-yarp'
-Plugin 'ncm2/ncm2-jedi'
-Plugin 'ncm2/ncm2-bufword'
-Plugin 'ncm2/ncm2-path'
-Plugin 'Shougo/neoinclude.vim'
-Plugin 'ncm2/ncm2-neoinclude'
-Plugin 'autozimu/LanguageClient-neovim'
-Plugin 'rhysd/vim-clang-format'
-Plugin 'sakhnik/nvim-gdb'
+Plug 'ncm2/ncm2', {'on': []}
+Plug 'roxma/nvim-yarp', {'on': []}
+Plug 'ncm2/ncm2-jedi', {'on': []}
+Plug 'ncm2/ncm2-bufword', {'on': []}
+Plug 'ncm2/ncm2-path', {'on': []}
+Plug 'Shougo/neoinclude.vim', {'on': []}
+Plug 'ncm2/ncm2-neoinclude', {'on': []}
+Plug 'autozimu/LanguageClient-neovim', {'branch': 'next', 'do': 'bash install.sh', 'on' : []}
+Plug 'neoclide/coc.nvim', {'do': { -> coc#util#install()}}
+Plug 'neoclide/coc-json'
+Plug 'neoclide/coc-yaml'
+Plug 'neoclide/coc-python'
+Plug 'neoclide/coc-highlight'
+Plug 'rhysd/vim-clang-format'
+Plug 'sakhnik/nvim-gdb', { 'do': ':!./install.sh \| UpdateRemotePlugins' }
 " go together
-Bundle 'LucHermitte/lh-vim-lib'
-Bundle 'LucHermitte/VimFold4C'
+Plug 'LucHermitte/lh-vim-lib'
+Plug 'LucHermitte/VimFold4C'
 " highlight
-Plugin 'pboettch/vim-cmake-syntax'
-Plugin 'bfrg/vim-cpp-modern'
+Plug 'pboettch/vim-cmake-syntax'
+Plug 'bfrg/vim-cpp-modern'
 " does not allow to fold....
-"Plugin 'arakashic/chromatica.nvim'
+"Plug 'arakashic/chromatica.nvim'
 " A - for switching between source and header files
-Plugin 'micbou/a.vim'
+Plug 'micbou/a.vim'
 " colorschemes
-Plugin 'rakr/vim-one'
-Plugin 'arcticicestudio/nord-vim'
-Plugin 'joshdick/onedark.vim'
-Plugin 'mhartington/oceanic-next'
-"Plugin 'jeaye/color_coded'
-"Plugin 'scrooloose/syntastic'
-" plugin from http://vim-scripts.org/vim/scripts.html
-" Plugin 'L9'
-" Git plugin not hosted on GitHub
-" Plugin 'git://git.wincent.com/command-t.git'
-" git repos on your local machine (i.e. when working on your own plugin)
-" Plugin 'file:///home/gmarik/path/to/plugin'
-" The sparkup vim script is in a subdirectory of this repo called vim.
-" Pass the path to set the runtimepath properly.
-" Plugin 'rstacruz/sparkup', {'rtp': 'vim/'}
-" Install L9 and avoid a Naming conflict if you've already installed a
-" different version somewhere else.
-" Plugin 'ascenator/L9', {'name': 'newL9'}
+Plug 'rakr/vim-one'
+Plug 'arcticicestudio/nord-vim'
+Plug 'joshdick/onedark.vim'
+Plug 'mhartington/oceanic-next'
+"Plug 'jeaye/color_coded'
+"Plug 'scrooloose/syntastic'
 
-" All of your Plugins must be added before the following line
-call vundle#end()            " required
-filetype plugin indent on    " required
+call plug#end()
+
 " To ignore plugin indent changes, instead use:
 "filetype plugin on
 "
@@ -108,12 +92,19 @@ no <C-k> <C-w>k
 no <C-l> <C-w>l 
 no <C-h> <C-w>h 
 
+" jj acts as the escape key
+inoremap jj <Esc>
+
 "enable syntax highlighting
 syntax on 
 colorscheme onedark
 
 " set autoread when the file changed from outside
 set autoread
+" force check for log files
+if has('nvim')
+    au FocusGained *.log* :checktime
+endif
 
 " change the pwd automatically 
 autocmd BufEnter * silent! lcd %:p:h
@@ -141,6 +132,8 @@ set hlsearch
 set ignorecase
 " But case-sensitive if there are capital letters
 set smartcase
+" turn off search highlight
+nnoremap <leader><space> :nohlsearch<CR>
 
 " Autocompleteion
 :imap <S-Tab> <C-P>
@@ -170,14 +163,19 @@ set tw=90
 set foldmethod=indent
 autocmd BufRead,BufNewFile   *.c* setlocal foldmethod=syntax
 autocmd BufRead,BufNewFile   *.h* setlocal foldmethod=syntax
+autocmd BufRead,BufNewFile   *.cmake* setlocal foldmethod=indent
 set nofoldenable
+" space open/closes folds
+nnoremap <space> za
 
 " Pressing ,ss will toggle and untoggle spell checking
 set spelllang=en_gb
 map <leader>ss :setlocal spell!<cr>
+" check spelling in commit messages automatically
+au BufNewFile,BufRead COMMIT_EDITMSG setlocal spell
 
-" Shared clipboard with OS
-set clipboard=unnamed
+" Shared clipboard with OS (should work on all the platforms)
+set clipboard^=unnamed,unnamedplus
 
 " bind K to grep word under cursor
 nnoremap K :grep! "\b<C-R><C-W>\b"<CR>:cw<CR>
@@ -220,7 +218,7 @@ let g:ctrlp_cache_dir = '$HOME/.vim/.cache/ctrlp'
 let g:ctrlp_max_files = 0
 let g:ctrlp_custom_ignore = {
   \ 'dir':  '\v[\/](\.git|\.hg|\.svn|CMakeProjectFiles)$',
-  \ 'file': '\v\.(gif|ttf|png|rhtml|d|exe|so|dll|o|json|DS_Store|swp)$',
+  \ 'file': '\v\.(gif|ttf|png|rhtml|d|exe|so|dll|o|json|DS_Store|swp|dwg)$',
   \ }
 let g:ctrlp_root_markers = ['.ctrlp']
 
@@ -262,11 +260,145 @@ nmap <leader>hh :A<CR>
 
 " -------------------------------- airline ------------------------------------
 let g:airline#extensions#default#section_truncate_width = {
-      \ 'b': 79,
+      \ 'a': 45,
+      \ 'b': 85,
+      \ 'c': 80,
       \ 'x': 60,
       \ 'y': 88,
       \ 'z': 45,
-      \ 'warning': 80,
-      \ 'error': 80,
+      \ 'warning': 75,
+      \ 'error': 78,
       \ }
 
+let g:airline_section_z = '%3l/%L:%3v'
+
+let g:airline_mode_map = {
+  \ '__' : '-',
+  \ 'c'  : 'C',
+  \ 'i'  : 'I',
+  \ 'ic' : 'I',
+  \ 'ix' : 'I',
+  \ 'n'  : 'N',
+  \ 'ni' : 'N',
+  \ 'no' : 'N',
+  \ 'R'  : 'R',
+  \ 'Rv' : 'R',
+  \ 's'  : 'S',
+  \ 'S'  : 'S',
+  \ '' : 'S',
+  \ 't'  : 'T',
+  \ 'v'  : 'V',
+  \ 'V'  : 'V',
+  \ '' : 'V',
+  \ }
+
+" add coc.nvim to airline
+let g:airline_section_error = '%{airline#util#wrap(airline#extensions#coc#get_error(),0)}'
+let g:airline_section_warning = '%{airline#util#wrap(airline#extensions#coc#get_warning(),0)}'
+
+"Change error symbol:
+"let airline#extensions#coc#error_symbol = 'Error:'
+"Change warning symbol:
+"let airline#extensions#coc#error_symbol = 'Warning:'
+"Change error format:
+let airline#extensions#coc#stl_format_err = '%E{[%e(#%fe)]}'
+"Change warning format:
+let airline#extensions#coc#stl_format_warn = '%W{[%w(#%fw)]}'
+
+"This extension hides the fugitive://**// part of the buffer names
+let g:airline#extensions#fugitiveline#enabled = 1
+
+" ---------------------------------- COC --------------------------------------
+"  general
+" Smaller updatetime for CursorHold & CursorHoldI
+set updatetime=300
+set hidden
+
+" <TAB>: completion.
+" Use tab for trigger completion with characters ahead and navigate.
+" Use command ':verbose imap <tab>' to make sure tab is not mapped by other plugin.
+inoremap <silent><expr> <TAB>
+      \ pumvisible() ? "\<C-n>" :
+      \ <SID>check_back_space() ? "\<TAB>" :
+      \ coc#refresh()
+inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+
+" Use <c-space> for trigger completion.
+inoremap <silent><expr> <c-space> coc#refresh()
+
+" Use <cr> for confirm completion, `<C-g>u` means break undo chain at current position.
+" Coc only does snippet and additional edit on confirm.
+inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+
+" Use `[c` and `]c` for navigate diagnostics
+nmap <silent> [c <Plug>(coc-diagnostic-prev)
+nmap <silent> ]c <Plug>(coc-diagnostic-next)
+
+" Remap keys for gotos
+nmap <leader>fd <Plug>(coc-definition)
+nmap <leader>ft <Plug>(coc-type-definition)
+nmap <leader>fi <Plug>(coc-implementation)
+nmap <leader>fr <Plug>(coc-references)
+
+" clls specific
+" caller
+nmap <leader>fc :call CocLocations('ccls','$ccls/call')<cr>
+" callee
+nmap <leader>fC :call CocLocations('ccls','$ccls/call',{'callee':v:true})<cr>
+" bases
+nmap <leader>ffb :call CocLocations('ccls','$ccls/inheritance')<cr>
+" derived
+nmap <leader>ffd :call CocLocations('ccls','$ccls/inheritance',{'derived':v:true})<cr>
+
+" Use K for show documentation in preview window
+nnoremap <leader>fh :call <SID>show_documentation()<CR>
+
+function! s:show_documentation()
+  if &filetype == 'vim'
+    execute 'h '.expand('<cword>')
+  else
+    call CocAction('doHover')
+  endif
+endfunction
+
+" Highlight symbol under cursor on CursorHold
+autocmd CursorHold * silent call CocActionAsync('highlight')
+
+" Remap for rename current word
+nmap <leader>rr <Plug>(coc-rename)
+
+" Remap for format selected region
+vmap <leader>fm  <Plug>(coc-format-selected)
+nmap <leader>fm  <Plug>(coc-format-selected)
+
+augroup mygroup
+  autocmd!
+  " Setup formatexpr specified filetype(s).
+  autocmd FileType typescript,json setl formatexpr=CocAction('formatSelected')
+  " Update signature help on jump placeholder
+  autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
+augroup end
+
+" Remap for do codeAction of selected region, ex: `<leader>aap` for current paragraph
+vmap <leader>a  <Plug>(coc-codeaction-selected)
+nmap <leader>a  <Plug>(coc-codeaction-selected)
+
+" Remap for do codeAction of current line
+nmap <leader>ac  <Plug>(coc-codeaction)
+" Fix autofix problem of current line
+nmap <leader>ff  <Plug>(coc-fix-current)
+
+" Use `:Format` for format current buffer
+command! -nargs=0 Format :call CocAction('format')
+
+" Use `:Fold` for fold current buffer
+command! -nargs=? Fold :call     CocAction('fold', <f-args>)
+
+"  highlight
+set updatetime=300
+autocmd CursorHold * silent call CocActionAsync('highlight')

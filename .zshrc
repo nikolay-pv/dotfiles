@@ -139,3 +139,6 @@ d='dirs -v | head -10'
 7='cd -7'
 8='cd -8'
 9='cd -9'
+
+test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
+

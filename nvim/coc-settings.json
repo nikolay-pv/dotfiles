@@ -6,11 +6,12 @@
     "ccls": {
       "command": "ccls",
       "filetypes": ["c", "cpp", "objc", "objcpp"],
-      "rootPatterns": [".ccls", "compile_commands.json", ".vim/", ".git/", ".hg/", ".svn/"],
+      "rootPatterns": [".ccls-root", ".ccls", "compile_commands.json", ".vim/", ".git/", ".hg/", ".svn/"],
       "initializationOptions": {
          "cache": {
-           "directory": "/tmp/ccls"
-         }
+           "directory": "/Users/nikolayp/.ccls-cache"
+         },
+         "index": {"threads": 1}
        }
     },
     "bash": {

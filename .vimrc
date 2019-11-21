@@ -46,8 +46,10 @@ Plug 'autozimu/LanguageClient-neovim', {'branch': 'next', 'do': 'bash install.sh
 Plug 'neoclide/coc.nvim', {'do': { -> coc#util#install()}}
 Plug 'neoclide/coc-json'
 Plug 'neoclide/coc-yaml'
+Plug 'neoclide/coc-xml'
 Plug 'neoclide/coc-python'
 Plug 'neoclide/coc-highlight'
+Plug 'neoclide/coc-solargraph'
 Plug 'rhysd/vim-clang-format'
 Plug 'sakhnik/nvim-gdb', { 'do': ':!./install.sh \| UpdateRemotePlugins' }
 " go together
@@ -56,6 +58,7 @@ Plug 'LucHermitte/VimFold4C'
 " highlight
 Plug 'pboettch/vim-cmake-syntax'
 Plug 'bfrg/vim-cpp-modern'
+Plug 'peterhoeg/vim-qml'
 " does not allow to fold....
 "Plug 'arakashic/chromatica.nvim'
 " A - for switching between source and header files
@@ -87,17 +90,26 @@ call plug#end()
 "switching to above window
 "switching to right window
 "switching to left window
-no <C-j> <C-w>j 
-no <C-k> <C-w>k 
-no <C-l> <C-w>l 
-no <C-h> <C-w>h 
+no <C-j> <C-w>j
+no <C-k> <C-w>k
+no <C-l> <C-w>l
+no <C-h> <C-w>h
 
 " jj acts as the escape key
 inoremap jj <Esc>
 
 "enable syntax highlighting
-syntax on 
+syntax on
 colorscheme onedark
+let g:onedark_terminal_italics=1
+highlight Comment cterm=italic
+" highlight spaces
+:highlight ExtraWhitespace ctermbg=darkgreen guibg=darkgreen
+
+" Show trailing whitespace:
+:match ExtraWhitespace /\s\+$/
+" Show trailing whitespace and spaces before a tab:
+:match ExtraWhitespace /\s\+$\| \+\ze\t/
 
 " set autoread when the file changed from outside
 set autoread
@@ -106,12 +118,12 @@ if has('nvim')
     au FocusGained *.log* :checktime
 endif
 
-" change the pwd automatically 
+" change the pwd automatically
 autocmd BufEnter * silent! lcd %:p:h
 " cd $mainbs
 
 " show line numbers
-set number 
+set number
 
 " show the matching part of the pair for [] {} ()
 set showmatch
@@ -145,6 +157,7 @@ set expandtab
 " indent when moving to the next line while writing code
 set autoindent
 set smartindent
+set cino=N-s
 
 " Wrap lines
 set wrap
@@ -181,7 +194,7 @@ set clipboard^=unnamed,unnamedplus
 nnoremap K :grep! "\b<C-R><C-W>\b"<CR>:cw<CR>
 
 " autoscroll
-set scrolloff=5
+set scrolloff=3
 
 " ############################################################################
 " #          Configure any plugin-specific settings and mappings.            #
@@ -239,7 +252,7 @@ if executable('ag')
   set grepprg=ag\ --nogroup\ --nocolor
 
   " Use ag in CtrlP for listing files. Lightning fast and respects .gitignore
-  let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
+  "let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
 endif
 
 " ------------------------------- Clang-tools  --------------------------------
@@ -308,6 +321,10 @@ let airline#extensions#coc#stl_format_warn = '%W{[%w(#%fw)]}'
 "This extension hides the fugitive://**// part of the buffer names
 let g:airline#extensions#fugitiveline#enabled = 1
 
+" ---------------------------------- Bbye --------------------------------------
+
+nnoremap <Leader>q :Bdelete<CR>
+
 " ---------------------------------- COC --------------------------------------
 "  general
 " Smaller updatetime for CursorHold & CursorHoldI
@@ -366,9 +383,6 @@ function! s:show_documentation()
   endif
 endfunction
 
-" Highlight symbol under cursor on CursorHold
-autocmd CursorHold * silent call CocActionAsync('highlight')
-
 " Remap for rename current word
 nmap <leader>rr <Plug>(coc-rename)
 
@@ -381,7 +395,7 @@ augroup mygroup
   " Setup formatexpr specified filetype(s).
   autocmd FileType typescript,json setl formatexpr=CocAction('formatSelected')
   " Update signature help on jump placeholder
-  autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
+  "autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
 augroup end
 
 " Remap for do codeAction of selected region, ex: `<leader>aap` for current paragraph
@@ -400,5 +414,54 @@ command! -nargs=0 Format :call CocAction('format')
 command! -nargs=? Fold :call     CocAction('fold', <f-args>)
 
 "  highlight
-set updatetime=300
+" increase updatetime for CursorHold to 1,5 second
+set updatetime=1500
 autocmd CursorHold * silent call CocActionAsync('highlight')
+
+" ---------------------------------- Dash -------------------------------------
+:nmap <silent> <leader>d <Plug>DashSearch
+
+" ---------------------------------- Gdb --------------------------------------
+let g:nvimgdb_config_override = {
+  \ 'key_continue':   '<leader>gc',
+  \ 'key_next':       '<leader>gn',
+  \ 'key_step':       '<leader>gs',
+  \ 'key_finish':     '<leader>gf',
+  \ 'key_breakpoint': '<leader>gb',
+  \ 'key_frameup':    '<leader>gu',
+  \ 'key_framedown':  '<leader>gd',
+  \ 'key_eval':       '<leader>ge',
+  \ 'split_command': 'vsplit'
+  \ }
+
+" ------------------------------- Easymotion -----------------------------------
+" Disable default mappings
+let g:EasyMotion_do_mapping = 0
+
+" Turn on case-insensitive feature
+let g:EasyMotion_smartcase = 1
+
+" Jump to anywhere you want with minimal keystrokes, with just one key binding.
+" `s{char}{label}`
+nmap <leader>m <Plug>(easymotion-overwin-f)
+
+nmap <leader>w <Plug>(easymotion-w)
+nmap <leader>W <Plug>(easymotion-W)
+"nmap <leader>f{char} <Plug>(easymotion-f)
+"nmap <leader>F{char} <Plug>(easymotion-F)
+"nmap <leader>t{char} <Plug>(easymotion-t)
+"nmap <leader>T{char} <Plug>(easymotion-T)
+nmap <leader>b <Plug>(easymotion-b)
+nmap <leader>B <Plug>(easymotion-B)
+nmap <leader>e <Plug>(easymotion-e)
+nmap <leader>E <Plug>(easymotion-E)
+"nmap <leader>ge <Plug>(easymotion-ge)
+"nmap <leader>gE <Plug>(easymotion-gE)
+nmap <leader>n <Plug>(easymotion-n)
+nmap <leader>N <Plug>(easymotion-N)
+nmap <leader>s <Plug>(easymotion-s)
+
+" JK motions: Line motions
+map <leader>j <Plug>(easymotion-j)
+map <leader>k <Plug>(easymotion-k)
+

@@ -52,6 +52,8 @@ Plug 'neoclide/coc-highlight'
 Plug 'neoclide/coc-solargraph'
 Plug 'rhysd/vim-clang-format'
 Plug 'sakhnik/nvim-gdb', { 'do': ':!./install.sh \| UpdateRemotePlugins' }
+" notes
+Plug 'vimwiki/vimwiki'
 " go together
 Plug 'LucHermitte/lh-vim-lib'
 Plug 'LucHermitte/VimFold4C'
@@ -74,7 +76,7 @@ Plug 'mhartington/oceanic-next'
 call plug#end()
 
 " To ignore plugin indent changes, instead use:
-"filetype plugin on
+filetype plugin on
 "
 " Brief help
 " :PluginList       - lists configured plugins
@@ -110,6 +112,11 @@ highlight Comment cterm=italic
 :match ExtraWhitespace /\s\+$/
 " Show trailing whitespace and spaces before a tab:
 :match ExtraWhitespace /\s\+$\| \+\ze\t/
+function TrimWhiteSpaces()
+  %s/\s\+$//g
+  ''
+endfunction
+nmap <leader>os :call TrimWhiteSpaces()<CR>
 
 " set autoread when the file changed from outside
 set autoread
@@ -186,6 +193,7 @@ set spelllang=en_gb
 map <leader>ss :setlocal spell!<cr>
 " check spelling in commit messages automatically
 au BufNewFile,BufRead COMMIT_EDITMSG setlocal spell
+au BufNewFile,BufRead *.wiki setlocal spell
 
 " Shared clipboard with OS (should work on all the platforms)
 set clipboard^=unnamed,unnamedplus
@@ -464,4 +472,10 @@ nmap <leader>s <Plug>(easymotion-s)
 " JK motions: Line motions
 map <leader>j <Plug>(easymotion-j)
 map <leader>k <Plug>(easymotion-k)
+
+" ------------------------------- VimWiki -----------------------------------
+" Disable table mappings as they hijack the tab completions
+let g:vimwiki_table_mappings=0
+" allow longer lines
+au BufNewFile,BufRead *.wiki setlocal tw=110
 

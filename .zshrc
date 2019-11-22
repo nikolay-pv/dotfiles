@@ -1,5 +1,15 @@
-# Source bash_profile with all the common aliases, settings and etc.
-source ~/.bash_profile
+### User Aliases
+# ls aliases
+alias ls='ls -Gh'
+alias lss='ls -lah'
+alias grep='grep  --color=auto --exclude-dir={.bzr,CVS,.git,.hg,.svn}'
+alias sag='ag -G ".*\.(cpp|hpp|c|h|ipp|inl|py)$"'
+alias findf='find . -name'
+alias cag='ag -G "cmakelists\.txt$"'
+
+# extra paths
+source $HOME/bs_paths.sh
+
 # All the following customizations should influence only zsh!
 # If a customization is applicable for bash, it has to be moved to bashrc.
 
@@ -73,9 +83,14 @@ ZSH_THEME="powerlevel9k/powerlevel9k"
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(
     git
+    svn
     zsh-autosuggestions
     zsh-syntax-highlighting
+    zsh-completions
+    docker
 )
+autoload -U compinit && compinit
+
 
 source $ZSH/oh-my-zsh.sh
 

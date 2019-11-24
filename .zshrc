@@ -7,6 +7,15 @@ alias sag='ag -G ".*\.(cpp|hpp|c|h|ipp|inl|py)$"'
 alias findf='find . -name'
 alias cag='ag -G "cmakelists\.txt$"'
 
+function searchdash () {
+    if [[ -z "$1" ]]; then
+        echo "Please enter query string."
+        return
+    fi
+        open dash://"$1"
+}
+alias dash="searchdash"
+
 # extra paths
 source $HOME/bs_paths.sh
 

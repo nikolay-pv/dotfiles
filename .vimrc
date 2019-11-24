@@ -57,10 +57,11 @@ Plug 'vimwiki/vimwiki'
 " go together
 Plug 'LucHermitte/lh-vim-lib'
 Plug 'LucHermitte/VimFold4C'
-" highlight
+" highlight syntax
 Plug 'pboettch/vim-cmake-syntax'
 Plug 'bfrg/vim-cpp-modern'
 Plug 'peterhoeg/vim-qml'
+Plug 'aklt/plantuml-syntax'
 " does not allow to fold....
 "Plug 'arakashic/chromatica.nvim'
 " A - for switching between source and header files

@@ -477,6 +477,8 @@ map <leader>k <Plug>(easymotion-k)
 " ------------------------------- VimWiki -----------------------------------
 " Disable table mappings as they hijack the tab completions
 let g:vimwiki_table_mappings=0
+let g:vimwiki_folding='list'
+let g:vimwiki_list = [{'path': '~/vimwiki/', 'auto_export': 1}]
 " allow longer lines
 au BufNewFile,BufRead *.wiki setlocal tw=110
 

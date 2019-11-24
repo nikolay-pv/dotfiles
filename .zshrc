@@ -27,7 +27,9 @@ export ZSH=$HOME"/.oh-my-zsh"
 # load a random theme each time oh-my-zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
-ZSH_THEME="powerlevel9k/powerlevel9k"
+#ZSH_THEME="daveverwer"
+ZSH_THEME="spaceship"
+#ZSH_THEME="powerlevel9k/powerlevel9k"
 
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
@@ -126,8 +128,12 @@ fi
 ### User Customizations
 
 DEFAULT_USER=Nikolay
-POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(context dir vcs)
-POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(status root_indicator history time)
+#POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(context dir vcs)
+#POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(status root_indicator history time)
+
+SPACESHIP_TIME_SHOW=true
+SPACESHIP_PROMPT_ADD_NEWLINE=false
+SPACESHIP_TIME_COLOR=green
 
 # zsh-autosuggestions key mappings
 bindkey '^ ' autosuggest-accept

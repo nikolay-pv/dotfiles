@@ -3,16 +3,11 @@
   "description": "Configuration file for coc.nvim",
   "additionalProperties": false,
   "languageserver": {
-    "ccls": {
-      "command": "ccls",
-      "filetypes": ["c", "cpp", "objc", "objcpp"],
-      "rootPatterns": [".ccls-root", ".ccls", "compile_commands.json", ".vim/", ".git/", ".hg/", ".svn/"],
-      "initializationOptions": {
-         "cache": {
-           "directory": "/Users/nikolayp/.ccls-cache"
-         },
-         "index": {"threads": 1}
-       }
+    "clangd": {
+      "command": "clangd",
+      "args": ["--background-index"],
+      "rootPatterns": [".ccls-root", ".ccls", "compile_flags.txt", "compile_commands.json", ".vim/", ".git/", ".hg/"],
+      "filetypes": ["c", "cpp", "objc", "objcpp"]
     },
     "bash": {
       "command": "bash-language-server",

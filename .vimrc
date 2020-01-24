@@ -154,6 +154,9 @@ set ignorecase
 set smartcase
 " turn off search highlight
 nnoremap <leader><space> :nohlsearch<CR>
+" convenience remapping to make sure search jump appears at the middle of the screen
+nnoremap n nzz
+nnoremap N Nzz
 
 " Autocompleteion
 :imap <S-Tab> <C-P>
@@ -373,7 +376,7 @@ nmap <leader>fr <Plug>(coc-references)
 
 " clls specific
 " caller
-nmap <leader>fc :call CocLocations('ccls','$ccls/call')<cr>
+nmap <leader>fc <Plug>(coc-references)
 " callee
 nmap <leader>fC :call CocLocations('ccls','$ccls/call',{'callee':v:true})<cr>
 " bases
@@ -478,7 +481,17 @@ map <leader>k <Plug>(easymotion-k)
 " Disable table mappings as they hijack the tab completions
 let g:vimwiki_table_mappings=0
 let g:vimwiki_folding='list'
-let g:vimwiki_list = [{'path': '~/vimwiki/', 'auto_export': 1}]
+let g:vimwiki_text_ignore_newline=0
+
+let g:vimwiki_list = [{'path': '~/vimwiki/', 'auto_export': 1, 'css_name': '~/vimwiki/vimwiki-assets/style.css',
+            \ 'template_path': '~/vimwiki/vimwiki-assets/',
+            \ 'template_default': 'default',
+            \ 'template_ext': '.tpl',
+            \ 'auto_diary_index': 1
+            \ }]
+":nmap <Leader>wn <Plug>VimwikiNextLink
+":nmap <Leader>wp <Plug>VimwikiPrevLink
 " allow longer lines
 au BufNewFile,BufRead *.wiki setlocal tw=110
 
+let g:python3_host_prog="/usr/local/bin/python3"

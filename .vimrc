@@ -5,7 +5,6 @@ call plug#begin('~/.vim/bundle')
 " Keep Plugin commands between plug#begin/end.
 " Make sure you use single quotes
 
-"Plug 'w0rp/ale'
 " version controls
 Plug 'tpope/vim-fugitive'
 Plug 'mhinz/vim-signify'
@@ -88,21 +87,24 @@ filetype plugin on
 " see :h vundle for more details or wiki for FAQ
 " Put your non-Plugin stuff after this line
 
-" Faster bufs switching
-"switching to below window
-"switching to above window
-"switching to right window
-"switching to left window
-no <C-j> <C-w>j
-no <C-k> <C-w>k
-no <C-l> <C-w>l
-no <C-h> <C-w>h
+" Faster bufs switching: below, above, right, left
+noremap <C-j> <C-w>j
+noremap <C-k> <C-w>k
+noremap <C-l> <C-w>l
+noremap <C-h> <C-w>h
 
-" jj acts as the escape key
-inoremap jj <Esc>
+" buffer navigation
+nnoremap <silent> [b :bprevious<CR>
+nnoremap <silent> ]b :bnext<CR>
+nnoremap <silent> [B :bfirst<CR>
+nnoremap <silent> ]B :blast<CR>
 
+"" Syntax
 "enable syntax highlighting
 syntax on
+" enable all python syntax highlighting features
+let python_highlight_all = 1
+
 colorscheme onedark
 let g:onedark_terminal_italics=1
 highlight Comment cterm=italic
@@ -126,22 +128,27 @@ if has('nvim')
     au FocusGained *.log* :checktime
 endif
 
-" change the pwd automatically
-autocmd BufEnter * silent! lcd %:p:h
-" cd $mainbs
-
 " show line numbers
 set number
 
 " show the matching part of the pair for [] {} ()
 set showmatch
 
-" enable all python syntax highlighting features
-let python_highlight_all = 1
-
+"" Command related tunings
 " Enchance command-line completion
 set wildmenu
-set wildmode=longest:full,list:longest,full
+set wildignorecase
+set wildmode=full
+set history=200
+" history scrollers
+cnoremap <C-p> <Up>
+cnoremap <C-n> <Down>
+
+" change the pwd automatically
+autocmd BufEnter * silent! lcd %:p:h
+
+" expansion of active dir to avoid writing of %:h
+cnoremap <expr> %% getcmdtype() == ':' ? expand('%:h').'/' : '%%'
 
 "" Search
 " search on typing
@@ -175,12 +182,11 @@ set wrap
 
 " set tabs to have 2 spaces
 set ts=4
-
 " set number of spaces for indentation
 set shiftwidth=4
 
 " Linebreak on 90 cheraters
-set lbr
+set linebreak
 set tw=90
 
 " Set folding based on indent
@@ -192,10 +198,10 @@ set nofoldenable
 " space open/closes folds
 nnoremap <space> za
 
-" Pressing ,ss will toggle and untoggle spell checking
+" Pressing \ss will toggle and untoggle spell checking
 set spelllang=en_gb
 map <leader>ss :setlocal spell!<cr>
-" check spelling in commit messages automatically
+" automatically check spelling in some buffers
 au BufNewFile,BufRead COMMIT_EDITMSG setlocal spell
 au BufNewFile,BufRead *.wiki setlocal spell
 
@@ -211,20 +217,6 @@ set scrolloff=3
 " ############################################################################
 " #          Configure any plugin-specific settings and mappings.            #
 " ############################################################################
-
-" ----------------------------------- YCM ------------------------------------
-" Apply YCM FixIt
-"map ff :YcmCompleter FixIt<CR>
-"" set up default config
-"" let g:ycm_global_ycm_extra_conf = '~/.vim/ycm_extra_conf_global.py'
-"" show all errors
-"let g:ycm_max_diagnostics_to_display=0
-"" syntax
-"let g:ycm_collect_identifiers_from_tags_files=1
-"let g:ycm_seed_identifiers_with_syntax=1
-"" location with errors
-"let g:ycm_always_populate_location_list = 1
-"let g:ycm_autoclose_preview_window_after_insertion = 1
 
 " ------------------------------- NerdTree ------------------------------------
 " Nerd short-cut
@@ -250,7 +242,6 @@ let g:ctrlp_root_markers = ['.ctrlp']
 " --------------------------------- TagBar -----------------------------------
 let g:tagbar_autoclose = 1
 nmap <Leader>t :TagbarToggle<CR>
-"map <C-b> :TagbarToggle<CR>
 " config tags
 set tags=./tags;/
 
@@ -268,7 +259,7 @@ if executable('ag')
 endif
 
 " ------------------------------- Clang-tools  --------------------------------
-nmap  <leader>clf <plug>(operator-clang-format)
+nmap <leader>clf <plug>(operator-clang-format)
 let g:clang_format#detect_style_file=1
 
 " ------------------------------- Syntax Cpp  ---------------------------------
@@ -279,9 +270,6 @@ let g:cpp_experimental_template_highlight = 1
 
 " ----------------------------------- A ---------------------------------------
 nmap <leader>hh :A<CR>
-
-" ---------------------------------- ale --------------------------------------
-"let g:ale_c_parse_compile_commands=1
 
 " -------------------------------- airline ------------------------------------
 let g:airline#extensions#default#section_truncate_width = {

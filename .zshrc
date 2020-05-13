@@ -101,8 +101,10 @@ plugins=(
     web-search
     xcode
     dash
+    docker-compose
+    kubectl
 )
-autoload -U compinit && compinit
+autoload -Uz compinit && compinit
 
 
 source $ZSH/oh-my-zsh.sh
@@ -143,7 +145,7 @@ DEFAULT_USER=Nikolay
 #POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(status root_indicator history time)
 
 SPACESHIP_TIME_SHOW=true
-SPACESHIP_PROMPT_ADD_NEWLINE=false
+SPACESHIP_PROMPT_ADD_NEWLINE=true
 SPACESHIP_TIME_COLOR=green
 
 # zsh-autosuggestions key mappings

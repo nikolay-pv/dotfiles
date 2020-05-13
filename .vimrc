@@ -49,10 +49,10 @@ Plug 'autozimu/LanguageClient-neovim', {'branch': 'next', 'do': 'bash install.sh
 Plug 'neoclide/coc.nvim', {'do': { -> coc#util#install()}}
 "Plug 'neoclide/coc-json'
 "Plug 'neoclide/coc-yaml'
+"Plug 'neoclide/coc-xml'
 "Plug 'neoclide/coc-python'
 "Plug 'neoclide/coc-highlight'
 "Plug 'neoclide/coc-solargraph'
-"Plug 'neoclide/coc-snippets'
 Plug 'honza/vim-snippets'
 Plug 'rhysd/vim-clang-format'
 Plug 'sakhnik/nvim-gdb', { 'do': ':!./install.sh \| UpdateRemotePlugins' }
@@ -66,6 +66,7 @@ Plug 'pboettch/vim-cmake-syntax'
 Plug 'bfrg/vim-cpp-modern'
 Plug 'peterhoeg/vim-qml'
 Plug 'aklt/plantuml-syntax'
+Plug 'keith/swift.vim'
 " does not allow to fold....
 "Plug 'arakashic/chromatica.nvim'
 " A - for switching between source and header files
@@ -167,6 +168,9 @@ nnoremap <leader><space> :nohlsearch<CR>
 " convenience remapping to make sure search jump appears at the middle of the screen
 nnoremap n nzz
 nnoremap N Nzz
+" perform the same substitution with the same parameters
+noremap & :&&<CR>
+xnoremap & :&&<CR>
 
 " convenience remapping to jupm to a line number faster, instead of 123gg => 123<CR> in
 " normal mode
@@ -328,6 +332,8 @@ nnoremap <Leader>q :Bdelete<CR>
 
 " ---------------------------------- COC --------------------------------------
 "  general
+"  add spelling dictionary to completion
+set complete+=k
 " Smaller updatetime for CursorHold & CursorHoldI
 set updatetime=300
 set hidden

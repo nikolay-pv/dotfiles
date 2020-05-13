@@ -1,22 +1,14 @@
+# Used to be bash_profile with all the common aliases, settings and etc.
+
 ### User Aliases
 # ls aliases
 alias ls='ls -Gh'
 alias lss='ls -lah'
 alias grep='grep  --color=auto --exclude-dir={.bzr,CVS,.git,.hg,.svn}'
 alias sag='ag -G ".*\.(cpp|hpp|c|h|ipp|inl|py)$"'
+alias cag='ag -G "(cmakelists\.txt|\.cmake)$"'
 alias findf='find . -name'
-alias cag='ag -G "cmakelists\.txt$"'
 alias ndebug='nvim -c "GdbStartLLDB lldb"'
-
-
-function searchdash () {
-    if [[ -z "$1" ]]; then
-        echo "Please enter query string."
-        return
-    fi
-        open dash://"$1"
-}
-alias dash="searchdash"
 
 # extra paths
 source $HOME/bs_paths.sh
@@ -101,6 +93,14 @@ plugins=(
     zsh-syntax-highlighting
     zsh-completions
     docker
+    fzf
+    gitignore # gitignore.io
+    osx
+    rsync
+    swiftpm
+    web-search
+    xcode
+    dash
 )
 autoload -U compinit && compinit
 

@@ -22,7 +22,9 @@ Plug 'thinca/vim-localrc'
 Plug 'moll/vim-bbye'
 Plug 'easymotion/vim-easymotion'
 Plug 'vim-airline/vim-airline'
+Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
+Plug 'tpope/vim-unimpaired'
 "Plug 'xolox/vim-misc'
 "Plug 'xolox/vim-easytags'
 Plug 'ludovicchabant/vim-gutentags', {'for': ['c', 'cpp', 'h', 'hpp', 'py']}
@@ -31,7 +33,9 @@ Plug 'andrewradev/linediff.vim'
 " handy plugin for marks
 Plug 'kshenoy/vim-signature'
 " fuzzy file opener
-Plug 'ctrlpvim/ctrlp.vim'
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf.vim'
+Plug 'airblade/vim-rooter'
 Plug 'rizzatti/dash.vim'
 " cpp
 Plug 'ncm2/ncm2', {'on': []}
@@ -43,12 +47,13 @@ Plug 'Shougo/neoinclude.vim', {'on': []}
 Plug 'ncm2/ncm2-neoinclude', {'on': []}
 Plug 'autozimu/LanguageClient-neovim', {'branch': 'next', 'do': 'bash install.sh', 'on' : []}
 Plug 'neoclide/coc.nvim', {'do': { -> coc#util#install()}}
-Plug 'neoclide/coc-json'
-Plug 'neoclide/coc-yaml'
-Plug 'neoclide/coc-xml'
-Plug 'neoclide/coc-python'
-Plug 'neoclide/coc-highlight'
-Plug 'neoclide/coc-solargraph'
+"Plug 'neoclide/coc-json'
+"Plug 'neoclide/coc-yaml'
+"Plug 'neoclide/coc-python'
+"Plug 'neoclide/coc-highlight'
+"Plug 'neoclide/coc-solargraph'
+"Plug 'neoclide/coc-snippets'
+Plug 'honza/vim-snippets'
 Plug 'rhysd/vim-clang-format'
 Plug 'sakhnik/nvim-gdb', { 'do': ':!./install.sh \| UpdateRemotePlugins' }
 " notes
@@ -72,6 +77,7 @@ Plug 'joshdick/onedark.vim'
 Plug 'mhartington/oceanic-next'
 "Plug 'jeaye/color_coded'
 "Plug 'scrooloose/syntastic'
+" utilities
 
 call plug#end()
 
@@ -144,9 +150,6 @@ set history=200
 cnoremap <C-p> <Up>
 cnoremap <C-n> <Down>
 
-" change the pwd automatically
-autocmd BufEnter * silent! lcd %:p:h
-
 " expansion of active dir to avoid writing of %:h
 cnoremap <expr> %% getcmdtype() == ':' ? expand('%:h').'/' : '%%'
 
@@ -164,6 +167,10 @@ nnoremap <leader><space> :nohlsearch<CR>
 " convenience remapping to make sure search jump appears at the middle of the screen
 nnoremap n nzz
 nnoremap N Nzz
+
+" convenience remapping to jupm to a line number faster, instead of 123gg => 123<CR> in
+" normal mode
+nnoremap <CR> gg
 
 " Autocompleteion
 :imap <S-Tab> <C-P>
@@ -228,34 +235,28 @@ let NERDTreeQuitOnOpen=0
 " Silver searcher with ack
 let g:ackprg = 'ag --nogroup --nocolor --column'
 
-" -------------------------------- CntrlP --------------------------------------
-"let g:ctrlp_cmd = 'CtrlPMRU'
-let g:ctrlp_clear_cache_on_exit = 0
-let g:ctrlp_cache_dir = '$HOME/.vim/.cache/ctrlp'
-let g:ctrlp_max_files = 0
-let g:ctrlp_custom_ignore = {
-  \ 'dir':  '\v[\/](\.git|\.hg|\.svn|CMakeProjectFiles)$',
-  \ 'file': '\v\.(gif|ttf|png|rhtml|d|exe|so|dll|o|json|DS_Store|swp|dwg)$',
-  \ }
-let g:ctrlp_root_markers = ['.ctrlp']
-
 " --------------------------------- TagBar -----------------------------------
 let g:tagbar_autoclose = 1
 nmap <Leader>t :TagbarToggle<CR>
 " config tags
 set tags=./tags;/
 
+" ------------------------------- FzF ---------------------------------
+set rtp+=/usr/local/opt/fzf
+" This is the default extra key bindings
+"let g:fzf_action = {
+"  \ 'ctrl-t': 'tab split',
+"  \ 'ctrl-x': 'split',
+"  \ 'ctrl-v': 'vsplit' }
+
 " ------------------------------- GuetenTags ---------------------------------
 :set statusline+=%{gutentags#statusline('[',']')}
-:let g:gutentags_project_root=['.ctrlp']
+:let g:gutentags_project_root=['.git']
 
 " ----------------------------Silver Searcher --------------------------------
 if executable('ag')
   " Use ag over grep
   set grepprg=ag\ --nogroup\ --nocolor
-
-  " Use ag in CtrlP for listing files. Lightning fast and respects .gitignore
-  "let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
 endif
 
 " ------------------------------- Clang-tools  --------------------------------
@@ -365,6 +366,7 @@ nmap <leader>fr <Plug>(coc-references)
 " clls specific
 " caller
 nmap <leader>fc <Plug>(coc-references)
+"nmap <leader>fc :call CocLocations('ccls','$ccls/call')<cr>
 " callee
 nmap <leader>fC :call CocLocations('ccls','$ccls/call',{'callee':v:true})<cr>
 " bases
@@ -417,6 +419,20 @@ command! -nargs=? Fold :call     CocAction('fold', <f-args>)
 " increase updatetime for CursorHold to 1,5 second
 set updatetime=1500
 autocmd CursorHold * silent call CocActionAsync('highlight')
+
+" coc-snippet
+inoremap <silent><expr> <TAB>
+      \ pumvisible() ? coc#_select_confirm() :
+      \ coc#expandableOrJumpable() ? "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :
+      \ <SID>check_back_space() ? "\<TAB>" :
+      \ coc#refresh()
+
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+
+let g:coc_snippet_next = '<tab>'
 
 " ---------------------------------- Dash -------------------------------------
 :nmap <silent> <leader>d <Plug>DashSearch
@@ -483,3 +499,7 @@ let g:vimwiki_list = [{'path': '~/vimwiki/', 'auto_export': 1, 'css_name': '~/vi
 au BufNewFile,BufRead *.wiki setlocal tw=110
 
 let g:python3_host_prog="/usr/local/bin/python3"
+
+" ------------------------------- MakePrg -----------------------------------
+autocmd QuickFixCmdPost make belowright cwindow
+

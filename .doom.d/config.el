@@ -32,13 +32,88 @@
 ;; `load-theme' function. This is the default:
 (setq doom-theme 'doom-one)
 
-;; If you use `org' and don't want your org files in the default location below,
-;; change `org-directory'. It must be set before org loads!
-(setq org-directory "~/org/")
-
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
 (setq display-line-numbers-type 'relative)
+
+
+;; ===== org =====
+;; If you use `org' and don't want your org files in the default location below,
+;; change `org-directory'. It must be set before org loads!
+(setq org-directory "~/org/")
+;; journal for personal use
+(setq org-journal-dir "~/org/journal/")
+(setq org-journal-file-type 'weekly)
+;; set up publishing
+(require 'ox-publish)
+;; https://github.com/gongzhitaao/orgcss
+(setq org-html-htmlize-output-type 'inline-css)
+;; supress headlines numbering
+(setq org-export-with-section-numbers nil)
+;; shorter name for Table of Contents
+(setq org-beamer-outline-frame-title "")
+(setq org-publish-project-alist
+      '(
+      ("org-notes"
+      :base-directory "~/org/"
+      :base-extension "org"
+      :publishing-directory "~/org_html/"
+      :recursive t
+      :publishing-function org-html-publish-to-html
+      :headline-levels 4             ; Just the default for this project.
+      :auto-preamble t
+      )
+      ("org-static"
+      :base-directory "~/org/"
+      :base-extension "css\\|js\\|png\\|jpg\\|gif\\|pdf\\|mp3\\|ogg\\|swf"
+      :publishing-directory "~/org_html/"
+      :recursive t
+      :publishing-function org-publish-attachment
+      )
+      ("org" :components ("org-notes" "org-static"))
+      ))
+
+;; add auto-export for ~/org
+(defun auto-publish-org-files-hook ()
+  "Auto publish org files on save to local html pages"
+  ;; check if saved file is part of blog
+  (if (org-publish-get-project-from-filename
+       (buffer-file-name (buffer-base-buffer)) 'up)
+      (save-excursion (org-publish-current-file)
+                      (message "auto published org files") nil)))
+;; Enable auto-publish when a org file when saved
+(add-hook 'org-mode-hook
+          (lambda ()
+            (add-hook 'after-save-hook 'auto-publish-org-files-hook nil nil)))
+
+;; set up deft
+(setq deft-directory "~/org/")
+;; set up roam
+(setq org-roam-directory "~/org")
+
+(setq org-roam-capture-templates
+      '(
+        ("d" "default" plain (function org-roam--capture-get-point)
+         "%?"
+         :file-name "%<%Y%m%d%H%M%S>-${slug}"
+         :head "#+title: ${title}\n#+roam_tags: private\n\n#+HTML_HEAD: <link rel=\"stylesheet\" type=\"text/css\" href=\"css/style.css\"/>\n#+OPTIONS: author:nil date:nil toc:nil\n"
+         :unnarrowed t)
+        ("w" "work" plain (function org-roam--capture-get-point)
+         "%?"
+         :file-name "work/%<%Y%m%d%H%M%S>-${slug}"
+         :head "#+title: ${title}\n#+roam_tags: work\n\n#+HTML_HEAD: <link rel=\"stylesheet\" type=\"text/css\" href=\"../css/style.css\"/>\n#+OPTIONS: author:nil date:nil toc:nil\n"
+         :unnarrowed t)
+))
+
+
+;; ===== Elfeed =====
+;; rss feed: auto update
+(add-hook! 'elfeed-search-mode-hook 'elfeed-update)
+(setq-default elfeed-search-filter "@2-week-ago +unread ")
+
+;; make C-n C-p work in minibuffer
+(define-key minibuffer-local-map (kbd "C-n") #'next-line-or-history-element)
+(define-key minibuffer-local-map (kbd "C-p") #'previous-line-or-history-element)
 
 ;; add ipp files to c++ mode
 (add-to-list 'auto-mode-alist '("\\.ipp\\'" . c++-mode))

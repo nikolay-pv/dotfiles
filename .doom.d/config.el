@@ -123,6 +123,11 @@
   (set-lsp-priority! 'clangd 1))  ; ccls has priority 0
 
 (after! lsp-clients
+  (setq lsp-clients-clangd-args '("-j=3"
+                                  "--background-index"
+                                  "--clang-tidy"
+                                  "--completion-style=detailed"
+                                  "--header-insertion=never"))
   (setq lsp-clients--clang-default-executable
         "~/Documents/tools/clang-llvm/build/bin/clangd"))
 
@@ -163,3 +168,7 @@
 
 ;; style changes
 (c-set-offset 'innamespace 0)
+
+;; completion Company
+(setq company-lsp-cache-candidates 'auto)
+(setq company-lsp-enable-recompletion t)

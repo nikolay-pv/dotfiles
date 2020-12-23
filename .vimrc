@@ -17,6 +17,8 @@ Plug 'scrooloose/nerdcommenter'
 " language
 Plug 'beloglazov/vim-online-thesaurus'
 Plug 'rhysd/vim-grammarous'
+" spellcheck of code
+Plug 'kamykn/spelunker.vim'
 " vim improvements
 Plug 'thinca/vim-localrc'
 Plug 'moll/vim-bbye'
@@ -46,7 +48,7 @@ Plug 'ncm2/ncm2-path', {'on': []}
 Plug 'Shougo/neoinclude.vim', {'on': []}
 Plug 'ncm2/ncm2-neoinclude', {'on': []}
 Plug 'autozimu/LanguageClient-neovim', {'branch': 'next', 'do': 'bash install.sh', 'on' : []}
-Plug 'neoclide/coc.nvim', {'do': { -> coc#util#install()}}
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
 "Plug 'neoclide/coc-json'
 "Plug 'neoclide/coc-yaml'
 "Plug 'neoclide/coc-xml'
@@ -137,6 +139,7 @@ endif
 
 " show line numbers
 set number
+set relativenumber
 
 " show the matching part of the pair for [] {} ()
 set showmatch
@@ -212,12 +215,28 @@ nnoremap <space> za
 " Pressing \ss will toggle and untoggle spell checking
 set spelllang=en_gb
 map <leader>ss :setlocal spell!<cr>
+map <leader>css ZT<cr>
+
+let g:spelunker_check_type = 2
+
 " automatically check spelling in some buffers
 au BufNewFile,BufRead COMMIT_EDITMSG setlocal spell
 au BufNewFile,BufRead *.wiki setlocal spell
 
 " Shared clipboard with OS (should work on all the platforms)
 set clipboard^=unnamed,unnamedplus
+let g:clipboard = {
+  \ 'name': 'pbcopy',
+  \ 'copy': {
+  \    '+': 'pbcopy',
+  \    '*': 'pbcopy',
+  \  },
+  \ 'paste': {
+  \    '+': 'pbpaste',
+  \    '*': 'pbpaste',
+  \ },
+  \ 'cache_enabled': 0,
+  \ }
 
 " bind K to grep word under cursor
 nnoremap K :grep! "\b<C-R><C-W>\b"<CR>:cw<CR>
@@ -254,7 +273,7 @@ set rtp+=/usr/local/opt/fzf
 "  \ 'ctrl-v': 'vsplit' }
 
 " ------------------------------- GuetenTags ---------------------------------
-:set statusline+=%{gutentags#statusline('[',']')}
+":set statusline+=%{gutentags#statusline('[',']')}
 :let g:gutentags_project_root=['.git']
 
 " ----------------------------Silver Searcher --------------------------------

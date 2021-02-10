@@ -36,6 +36,40 @@
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
 (setq display-line-numbers-type 'relative)
 
+;; ===== imenu-list =====
+(after! imenu-list
+  (set-popup-rule! "^\\*Ilist"
+    :side 'right :size 35 :quit nil :select nil :ttl 0)
+  (setq imenu-list-focus-after-activation t))
+
+(map! :leader
+      (:prefix-map ("t" . "toggle")
+       (:desc "imenu-list" "i" #'imenu-list-smart-toggle)))
+
+;; ===== shortcuts =====
+(map! :leader
+      (:prefix-map ("c" . "code")
+       (:desc "find-other-file" "h" #'ff-find-other-file)))
+
+(map! :leader
+      (:prefix-map ("t" . "toggle")
+       (:desc "popup" "p" #'+popup/toggle)))
+
+(map! :leader
+      (:prefix-map ("b" . "buffer")
+       (:desc "mark whole buffer" "h" #'mark-whole-buffer)))
+
+(defun copy-current-line-position-to-clipboard ()
+  "Copy current line in file to clipboard as '</path/to/file> <line-number>'"
+  (interactive)
+  (let ((path-with-line-number
+         (concat (buffer-file-name) " " (number-to-string (line-number-at-pos)))))
+    (x-select-text path-with-line-number)
+    (message (concat path-with-line-number " copied to clipboard"))))
+
+(map! :leader
+      (:prefix-map ("c" . "code")
+       (:desc "copy-file-line" "g" #'copy-current-line-position-to-clipboard)))
 
 ;; ===== org =====
 ;; If you use `org' and don't want your org files in the default location below,
@@ -72,6 +106,15 @@
       )
       ("org" :components ("org-notes" "org-static"))
       ))
+
+;; enable org-crypt
+;; Specify :crypt: tag to encrypt only part of org file
+(require 'org-crypt)
+(org-crypt-use-before-save-magic)
+(setq org-tags-exclude-from-inheritance (quote ("crypt")))
+;; GPG key to use for encryption
+;; Either the Key ID or set to nil to use symmetric encryption.
+(setq org-crypt-key nil)
 
 ;; add auto-export for ~/org
 (defun auto-publish-org-files-hook ()
@@ -115,8 +158,9 @@
 (define-key minibuffer-local-map (kbd "C-n") #'next-line-or-history-element)
 (define-key minibuffer-local-map (kbd "C-p") #'previous-line-or-history-element)
 
-;; add ipp files to c++ mode
+;; associate major-modes with extension
 (add-to-list 'auto-mode-alist '("\\.ipp\\'" . c++-mode))
+(add-to-list 'auto-mode-alist '("\\.xrc\\'" . nxml-mode))
 
 ;; force use of clangd
 (after! lsp-clients
@@ -171,4 +215,22 @@
 
 ;; completion Company
 (setq company-lsp-cache-candidates 'auto)
+(setq company-lsp-async t)
+(setq company-lsp-enable-snippet t)
 (setq company-lsp-enable-recompletion t)
+
+(set-company-backend! '(c-mode c++-mode objc-mode)
+      '(company-lsp :with company-yasnippet))
+
+
+;; extensions
+(defun +default/yank-buffer-filename-last-component ()
+  "Copy the last component of the current buffer's path to the kill ring."
+  (interactive)
+  (if-let (filename (or buffer-file-name (bound-and-true-p list-buffers-directory)))
+      (message (kill-new (file-name-nondirectory filename)))
+    (error "Couldn't find filename in current buffer")))
+
+(map! :leader
+      (:prefix-map ("f" . "file")
+       (:desc "yank filename only" "Y" #'+default/yank-buffer-filename-last-component)))

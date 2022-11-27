@@ -95,7 +95,7 @@ plugins=(
     docker
     fzf
     gitignore # gitignore.io
-    osx
+    macos
     rsync
     swiftpm
     web-search
@@ -103,6 +103,7 @@ plugins=(
     dash
     docker-compose
     kubectl
+    swiftpm
 )
 autoload -Uz compinit && compinit
 

@@ -7,8 +7,10 @@ alias lss='ls -lah'
 alias grep='grep  --color=auto --exclude-dir={.bzr,CVS,.git,.hg,.svn}'
 alias sag='ag -G ".*\.(cpp|hpp|c|h|ipp|inl|py)$"'
 alias cag='ag -G "(cmakelists\.txt|\.cmake)$"'
-alias findf='find . -name'
 alias ndebug='nvim -c "GdbStartLLDB lldb"'
+alias vim=nvim
+alias cleanxcode='xcrun simctl delete unavailable'
+
 
 # extra paths
 source $HOME/bs_paths.sh

@@ -50,3 +50,4 @@
 
 (package! blamer)
 
+(package! ellama)

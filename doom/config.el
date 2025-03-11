@@ -42,16 +42,16 @@
 (setq display-line-numbers-type 'relative)
 
 ;; imenu
-(map! :leader
-      (:prefix-map ("t" . "toggle")
-       (:desc "imenu-list" "i" #'lsp-ui-imenu)))
+;; (map! :leader
+;;       (:prefix-map ("t" . "toggle")
+;;                    (:desc "imenu-list" "i" #'lsp-ui-imenu)))
 
 ;; shortcuts
-(map! "s-o"
-       (:desc "find-other-file" #'lsp-clangd-find-otehr-file)))
-(map! :leader
-      (:prefix-map ("c" . "code")
-       (:desc "find-other-file" "h" #'lsp-clangd-find-otehr-file)))
+;; (map! "s-o"
+;;       (:desc "find-other-file" #'lsp-clangd-find-otehr-file))
+;; (map! :leader
+;;       (:prefix-map ("c" . "code")
+;;                    (:desc "find-other-file" "h" #'lsp-clangd-find-otehr-file)))
 
 ;; If you use `org' and don't want your org files in the default location below,
 ;; change `org-directory'. It must be set before org loads!
@@ -124,11 +124,38 @@
   :custom
   (blamer-idle-time 0.3)
   (blamer-min-offset 70)
-  ;; :custom-face
-  ;; (blamer-face ((t :foreground "#7a88cf"
-  ;;                   :background nil
-  ;;                   :height 140
-  ;;                   :italic t)))
+  :custom-face
+  (blamer-face ((t :foreground "#7a88cf"
+                   :background nil
+                   :height 100
+                   :italic t)))
   :config
   (global-blamer-mode 1))
 
+
+(use-package ellama
+  :ensure t
+  ;; :bind ("C-c e" . ellama-transient-main-menu)
+  ;; send last message in chat buffer with C-c C-c
+  :hook (org-ctrl-c-ctrl-c-final . ellama-chat-send-last-message)
+  :init (setopt ellama-auto-scroll t)
+  :config
+  ;; show ellama context in header line in all buffers
+  (ellama-context-header-line-global-mode +1)
+  (require 'llm-ollama)
+  (setopt ellama-provider
+      (make-llm-ollama
+       :chat-model "llama3.1:8b"
+       :embedding-model "nomic-embed-text"
+       :default-chat-non-standard-params '(("num_ctx" . 8192))))
+  (setopt ellama-summarization-provider
+      (make-llm-ollama
+       :chat-model "llama3.1:8b"
+       :embedding-model "nomic-embed-text"
+       :default-chat-non-standard-params '(("num_ctx" . 32768))))
+  (setopt ellama-coding-provider
+      (make-llm-ollama
+       :chat-model "qwen2.5-coder:7b"
+       :embedding-model "nomic-embed-text"
+       :default-chat-non-standard-params '(("num_ctx" . 32768))))
+  )

@@ -1,0 +1,10 @@
+# https://ghostty.org/docs/config/reference
+
+font-family = JetBrains Mono
+cursor-style = block
+font-size = 13
+
+copy-on-select = clipboard
+scrollback-limit = 100000
+clipboard-read = allow
+clipboard-write = allow
